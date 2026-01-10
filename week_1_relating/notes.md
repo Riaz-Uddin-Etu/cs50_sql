@@ -13,8 +13,6 @@ WHERE type = 'Public School';
 
 * `WHERE` filters rows based on conditions.
 
----
-
 ## 2. Filtering with Patterns
 
 * Use `LIKE` to match patterns in strings.
@@ -28,8 +26,6 @@ WHERE name LIKE '%(non-op)%';
 
 * `%` is a wildcard matching any sequence of characters.
 
----
-
 ## 3. Aggregate Functions
 
 * SQL aggregates include `COUNT()`, `AVG()`, `SUM()`, `MIN()`, `MAX()`.
@@ -41,8 +37,6 @@ FROM expenditures;
 ```
 
 * Use `AS` to rename output columns for clarity.
-
----
 
 ## 4. GROUP BY and HAVING
 
@@ -68,8 +62,6 @@ HAVING COUNT(name) <= 3
 ORDER BY "Number_of_Public_Schools" DESC, city;
 ```
 
----
-
 ## 5. JOINs
 
 * Use `JOIN` to combine tables on related columns.
@@ -82,17 +74,12 @@ JOIN graduation_rates
 ON schools.id = graduation_rates.school_id
 WHERE graduated = '100';
 ```
-
 * Types of JOINs: `INNER JOIN` (default), `LEFT JOIN`, `RIGHT JOIN`.
-
----
 
 ## 6. Sorting and Limiting
 
 * `ORDER BY` sorts results. Default ascending, `DESC` for descending.
 * `LIMIT` restricts the number of rows returned.
-
----
 
 ## 7. Notes from Queries
 
@@ -101,14 +88,9 @@ WHERE graduated = '100';
 * Aggregation + sorting is very useful for ranking results (top 10 cities/districts).
 * HAVING is necessary when filtering on aggregated values.
 
----
-
 ## 8. Key Takeaways
 
 * Filtering with `WHERE` vs filtering grouped data with `HAVING`.
 * Aggregates allow analyzing large datasets efficiently.
 * Joins are essential to combine related data across multiple tables.
 * Always test queries step by step to ensure correct results.
-
----
-
