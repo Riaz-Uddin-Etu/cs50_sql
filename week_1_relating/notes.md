@@ -88,9 +88,67 @@ WHERE graduated = '100';
 * Aggregation + sorting is very useful for ranking results (top 10 cities/districts).
 * HAVING is necessary when filtering on aggregated values.
 
-## 8. Key Takeaways
+## 8. Subqueries
 
+* Subqueries can be used to compute values for filtering, aggregation, or comparison.
+* Example: find districts with above-average per-pupil expenditure:
+
+```sql
+WHERE e.per_pupil_expenditure > (
+    SELECT AVG(per_pupil_expenditure)
+    FROM expenditures
+)
+```
+
+## 9. New Queries (11–13)
+
+### Query 11 – Schools with Per-Pupil Expenditure and Graduation Rate
+
+```sql
+SELECT schools.name, expenditures.per_pupil_expenditure, graduation_rates.graduated
+FROM schools
+JOIN graduation_rates ON schools.id = graduation_rates.school_id
+JOIN expenditures ON schools.district_id = expenditures.district_id
+ORDER BY expenditures.per_pupil_expenditure DESC, schools.name;
+```
+
+* Combines **3 tables** with JOINs.
+* Sorts by per-pupil expenditure, breaking ties alphabetically by school name.
+
+### Query 12 – Above-Average Expenditure & Exemplary Teachers
+
+```sql
+SELECT d.name, e.per_pupil_expenditure, s.exemplary
+FROM districts AS d
+JOIN expenditures AS e ON d.id = e.district_id
+JOIN staff_evaluations AS s ON d.id = s.district_id
+WHERE e.per_pupil_expenditure > (SELECT AVG(per_pupil_expenditure) FROM expenditures)
+  AND s.exemplary > (SELECT AVG(exemplary) FROM staff_evaluations)
+  AND d.type = 'Public School District'
+ORDER BY s.exemplary DESC, e.per_pupil_expenditure DESC;
+```
+
+* Uses **subqueries** to compare values against averages.
+* Combines filtering, JOINs, and sorting in one query.
+
+### Query 13 – Total Expenditure per District
+
+```sql
+SELECT d.name, (e.pupils * e.per_pupil_expenditure) AS total_expenditure_on_pupil
+FROM districts AS d
+JOIN expenditures AS e ON d.id = e.district_id;
+```
+
+* Introduces **calculations in SELECT** (`pupils * per_pupil_expenditure`).
+* Can answer questions like “Which district spends the most overall on students?”
+
+## 10. Key Takeaways
 * Filtering with `WHERE` vs filtering grouped data with `HAVING`.
 * Aggregates allow analyzing large datasets efficiently.
 * Joins are essential to combine related data across multiple tables.
 * Always test queries step by step to ensure correct results.
+* JOINs are essential for combining related data across multiple tables.
+* Subqueries allow dynamic filtering based on aggregated data (like averages).
+* Calculations can be performed directly in SELECT statements.
+* Sorting with multiple columns allows precise ranking.
+* Aggregation + HAVING + JOIN + calculation can answer complex real-world questions.
